@@ -4,13 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx src/biblioteca.ts"
+    "start": "npx tsx src/biblioteca.ts",
+    "dev": "npx tsc && npx http-server ./src --index=index.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^24.9.2",
+    "http-server": "^14.1.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
-  }
+  },
+  "dependencies": {
+    "esbuild": "^0.25.11",
+    "get-tsconfig": "^4.13.0",
+    "resolve-pkg-maps": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MirnaPenaforte/ControleBiblioteca.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MirnaPenaforte/ControleBiblioteca/issues"
+  },
+  "homepage": "https://github.com/MirnaPenaforte/ControleBiblioteca#readme"
 }

@@ -6,10 +6,11 @@ type Livro = {
     Ano: number
     Disponibilidade: boolean
     Emprestimo?: Date
+    Devolução?: Date
 } 
 
 
-const Biblioteca = [
+let Biblioteca: Livro[] = [
     {
         ISBN: 1,
         Titulo: "O Senhor dos Anéis: A Sociedade do Anel",
@@ -75,23 +76,68 @@ const Biblioteca = [
     }
 ];
 
-//function adicionarLivro(livro: Livro) {
-    //acervoLivros.forEach((livro) => { 
-      //  Biblioteca.push(livro)
-    //})
-   
-//}
-
-//isso poderia ser escrito assim
-function adicionarLivro(livro: Livro){
-    Biblioteca.push(livro)
+function adicionarLivros(livro: Livro){
+    Biblioteca.push(livro);
 }
 
-adicionarLivro({Ano : 1693, Disponibilidade: true, ISBN: 11, Titulo: "Qualque um"})
 
+function retirarLivro(id: number){
+    const livro = Biblioteca.find((l) => l.ISBN === id);
+    
+    if (livro && livro.Disponibilidade){
+        livro.Disponibilidade = false;
+        livro.Emprestimo = new Date();
+        console.log(`Livro ${livro.Titulo} retirado com sucesso!\n`)
 
-function listarLivros (){
-    Biblioteca.map((l) => {console.log(`Todos os livros: ${l.Ano}`)})
+    } else {
+        console.log("Livro indisponível")
+    }
 }
 
-listarLivros()
+
+
+function listarDisponiveis() {
+    const disponiveis = Biblioteca.filter((l) => l.Disponibilidade);
+
+    return disponiveis.map((l) => console.log(`Livro disponível: \n ISBN: ${l.ISBN} \n Titulo: ${l.Titulo} \n Ano: ${l.Ano} \n Disponibilidade: ${l.Disponibilidade} \n`));
+
+}
+
+function buscarLivro(nome: string, ano?: number){
+    const buscaPorNome = Biblioteca.find((l) => l.Titulo === nome);
+    const buscaPorAno = Biblioteca.find((l) => l.Ano === ano);
+
+    return console.log (`Livro encontrado: \n ISBN: ${buscaPorNome.ISBN} \n Titulo: ${buscaPorNome.Titulo} \n Ano: ${buscaPorNome.Ano} \n Disponibilidade: ${buscaPorNome.Disponibilidade} \n`)
+
+}
+//conciderando que o prazo de devolução é de 15 dias, e a multa é de 5 reais por dia
+function prazoDevolucao(emprestimo: Date, devolucao: Date){
+    const dataEmprestimo = emprestimo;
+    const dataAtual = devolucao;
+    const prazoDeDevolução = dataAtual.getDate() - dataEmprestimo.getDate();
+    const prazoMaxDias = 15
+    let tempoDeEmprestimo = prazoMaxDias - prazoDeDevolução;
+    let multa = 0;
+
+
+    if (tempoDeEmprestimo < 0){
+        tempoDeEmprestimo = tempoDeEmprestimo * -1;
+        multa = tempoDeEmprestimo * 5;
+        return 
+        console.log (`Este Livro esta atrasado ${tempoDeEmprestimo} dias e a multa pelo atraso é de R$ ${multa}`)
+    
+    }else {
+        return
+        console.log("Livro devolvido com sucesso!")
+    }
+
+}
+
+
+// // adicionarLivros({ISBN: 11, Titulo: "Harry Potter e o Prisioneiro de Azkaban", Ano: 1999, Disponibilidade: true, Emprestimo: new Date})
+
+// // retirarLivro(9)
+
+// // listarDisponiveis()
+
+buscarLivro("O Hobbit")

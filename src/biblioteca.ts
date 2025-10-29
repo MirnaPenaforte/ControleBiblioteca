@@ -107,37 +107,38 @@ function buscarLivro(nome: string, ano?: number){
     const buscaPorNome = Biblioteca.find((l) => l.Titulo === nome);
     const buscaPorAno = Biblioteca.find((l) => l.Ano === ano);
 
-    return console.log (`Livro encontrado: \n ISBN: ${buscaPorNome.ISBN} \n Titulo: ${buscaPorNome.Titulo} \n Ano: ${buscaPorNome.Ano} \n Disponibilidade: ${buscaPorNome.Disponibilidade} \n`)
+    return console.log (`Livro encontrado: \n ISBN: ${buscaPorNome?.ISBN} \n Titulo: ${buscaPorNome?.Titulo} \n Ano: ${buscaPorNome?.Ano} \n Disponibilidade: ${buscaPorNome?.Disponibilidade} \n`)
 
 }
 //conciderando que o prazo de devolução é de 15 dias, e a multa é de 5 reais por dia
 function prazoDevolucao(emprestimo: Date, devolucao: Date){
     const dataEmprestimo = emprestimo;
     const dataAtual = devolucao;
-    const prazoDeDevolução = dataAtual.getDate() - dataEmprestimo.getDate();
+    let prazoDeDevolução = dataAtual.getTime() - dataEmprestimo.getTime();
+    let prazoDeDevoluçãoConvertido = prazoDeDevolução/(1000 * 60 * 60 * 24)
+    
     const prazoMaxDias = 15
-    let tempoDeEmprestimo = prazoMaxDias - prazoDeDevolução;
-    let multa = 0;
+    let calculoEMprestimo = (prazoMaxDias - prazoDeDevoluçãoConvertido)*-1;
+    let tempoDeEmprestimo = Math.round(calculoEMprestimo)
+    let multa = 0
 
-
-    if (tempoDeEmprestimo < 0){
-        tempoDeEmprestimo = tempoDeEmprestimo * -1;
+    if (tempoDeEmprestimo > 0){
         multa = tempoDeEmprestimo * 5;
-        return 
         console.log (`Este Livro esta atrasado ${tempoDeEmprestimo} dias e a multa pelo atraso é de R$ ${multa}`)
     
     }else {
-        return
         console.log("Livro devolvido com sucesso!")
     }
 
 }
 
 
-// // adicionarLivros({ISBN: 11, Titulo: "Harry Potter e o Prisioneiro de Azkaban", Ano: 1999, Disponibilidade: true, Emprestimo: new Date})
+adicionarLivros({ISBN: 11, Titulo: "Harry Potter e o Prisioneiro de Azkaban", Ano: 1999, Disponibilidade: true, Emprestimo: new Date})
 
-// // retirarLivro(9)
+retirarLivro(9)
 
-// // listarDisponiveis()
+listarDisponiveis()
 
 buscarLivro("O Hobbit")
+
+prazoDevolucao(new Date(2025,8,9), new Date)

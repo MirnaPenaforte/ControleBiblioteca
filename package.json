@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx tsx src/biblioteca.ts",
-    "dev": "npx tsc && npx http-server ./src --index=index.html"
+    "start": "tsx src/biblioteca.ts"
   },
   "keywords": [],
   "author": "",
